@@ -1,75 +1,102 @@
 var app = new Vue({
   el: '#app',
   data: {
-    cities: [],
-    prefix: '',
-    cityfield: '',
-    word: '',
-    definitions: [],
-    test_def : ''
+    smallGoalPoints : 1,
+    mediumGoalPoints : 5,
+    largeGoalPoints : 10,
+    todaysPoints : 0,
+    clicked: [],
+    grade: "F"
   },
   methods: {
-    fetchREST() {
-      console.log("In Fetch " + this.prefix);
-      var url = "getcity?q="+this.prefix; 
-      console.log("URL: " + url + "\n");
-      $.getJSON(url,function(data) {
-          console.log(data);
-          return (data.json);
-        })
-        .then((citylist) => {
-          console.log("CityList");
-          // console.log(citylist);
-          this.cities = [];
-          for (let i = 0; i < citylist.length; i++) {
-            console.log(citylist[i].city);
-            this.cities.push( { name: citylist[i].city }  );
-          };
-          console.log("Got Citylist");
-        });
+    drinkWater(){
+      if(document.getElementById("drinkWater").checked == true){
+        this.todaysPoints = this.todaysPoints + this.smallGoalPoints;
+      }else{
+        this.todaysPoints = this.todaysPoints - this.smallGoalPoints;
+      }
+      this.updateGrade();
     },
-    fetchDICT() {
-      let url = "dict?q="+this.word;
-      console.log("URL: " + url);
-      $.getJSON(url, function(data){
-        return (data.json);
-      })
-      
-      console.log("in fetchREST function");
-      let URL = "https://owlbot.info/api/v3/dictionary/" + this.word;
-      
-      const request = new Request(URL, {
-        headers: new Headers({
-          'Content-Type':'application/json',
-          'Authorization':'Token 49070b13348ce05557b302d26785ffd5a8570bef'
-        })
-      })
-      fetch(request).then(function(response){ //make
-        return response.json();
-      }).then((def_list) => {
-        this.definitions = [];
-        console.log("json data " + def_list.toString());
-        if(def_list.definitions.length >0){
-          for (let i = 0; i < def_list.definitions.length; i++) {
-              /*
-              definition: "the eighth letter of the alphabet."
-              example: null
-              image_url: null
-              type: "noun"
-              */
-              console.log("Thid def"  + def_list);
-              this.definitions.push(
-                { 
-                    definition: def_list.definitions[i].definition,
-                    example: def_list.definitions[i].example,
-                    image_url: def_list.definitions[i].image_url,
-                    type: def_list.definitions[i].type
-                  
-                });
-            }
+    checkInWithTeammate(){
+      if( document.getElementById("checkInWithTeammate").checked == true ){
+        this.todaysPoints = this.todaysPoints + this.smallGoalPoints;
+      }else{
+        this.todaysPoints = this.todaysPoints - this.smallGoalPoints;
+      }
+      this.updateGrade();
+    },
+    bedtimeGoal(){
+      if(document.getElementById("bedtimeGoal").checked == true){
+        this.todaysPoints = this.todaysPoints + this.smallGoalPoints;
+      }else{
+        this.todaysPoints = this.todaysPoints - this.smallGoalPoints;
+      }
+      this.updateGrade();
+    },
+    foodJournal(){
+      if(document.getElementById("foodJournal").checked == true){
+        this.todaysPoints = this.todaysPoints + this.smallGoalPoints;
+      }else{
+        this.todaysPoints = this.todaysPoints - this.smallGoalPoints;
+      }
+      this.updateGrade();
+    },
+    foodGoals(){
+      if(document.getElementById("foodGoals").checked == true){
+        this.todaysPoints = this.todaysPoints + this.largeGoalPoints;
+      }else{
+        this.todaysPoints = this.todaysPoints - this.largeGoalPoints;
+      }
+      this.updateGrade();
+    },
+    excercise(){ 
+      if(document.getElementById("excercise").checked == true){
+        this.todaysPoints = this.todaysPoints + this.mediumGoalPoints;
+      }else{
+        this.todaysPoints = this.todaysPoints - this.mediumGoalPoints;
+      }
+      this.updateGrade();
+    },
+    scriptures(){
+      if(document.getElementById("scriptures").checked == true){
+        this.todaysPoints = this.todaysPoints + this.smallGoalPoints;
+      }else{
+        this.todaysPoints = this.todaysPoints - this.smallGoalPoints;
+      }
+      this.updateGrade();
+    },
+    alreadyClicked(func){
+      for( i = 0; i < this.clicked.length; i++){
+        if(this.clicked[i] == func){
+          return true;
         }
-          
-      });
+      }
+      return false;
     },
+    updateGrade(){
+      let url = "score_calc?q=" + this.todaysPoints;
+      console.log("URL: " + url);
+      fetch(url).then( data => {
+        console.log("Got data from backend: " + data);
+        let score = data;
+        console.log("Old score: " + this.score);
+        this.score = score;
+        console.log("New Score: " + this.score + " Given Score: " + score);
+      })
+      
+      const max_score = 20;
+      let grade = this.todaysPoints/max_score;
+      if(grade < .6){
+        this.grade = "D";
+      }else if (grade < .7){
+        this.grade = "C";
+      }else if (grade < .8){
+        this.grade = "B";
+      }else if (grade <.9 ){
+        this.grade = "A";
+      }else{
+        this.grade == "A++";
+      }
+    }
   },
 });

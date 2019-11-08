@@ -10,39 +10,60 @@
 </head>
 
 <body>
-  <div id="app">
+  <div id="app" >
+    <h1 class = "center">Welcome to the Felsted Fitness Challenge</h1>
+    <h5 class = "center">Select your choices today to get your "fitness score" for the day</h5>
+    <div class = "center big">
+      <!--{{ this.todaysPoints }}-->
+      {{ this.grade }}
+    </div>
+    <br>
+    <br>
+    <br>
     <div class="row">
       <div class="column">
-        <h1>Select a City</h1>
-        <form v-on:keyup.prevent="fetchREST">
-          <input type="text" v-model="prefix">
-        </form>
-        <ul>
-          <li v-for="item in cities">
-            {{ item.name }}
-          </li>
-        </ul>
+        <label class="container" >Drink Water
+          <input type="checkbox"  v-on:click="drinkWater()" id= "drinkWater">
+          <span class="checkmark"></span>
+        </label>
       </div>
-      
       <div class="column">
-        <h1>Lookup a Word</h1>
-          <form v-on:keyup.prevent="fetchDICT">
-            <input type="text" v-model="word">
-          </form>
-          <ul>
-            <li v-for="item in this.definitions">
-              {{ item.definition }}
-            </li>
-          </ul>
+        <label class="container" >Check In With Teammate
+          <input type="checkbox"  v-on:click="checkInWithTeammate()" id="checkInWithTeammate">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <div class="column">
+        <label class="container" >Go to Bed on Time
+          <input type="checkbox"  v-on:click="bedtimeGoal()" id="bedtimeGoal">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <div class="column">
+        <label class="container" >Food Journal
+          <input type="checkbox"  v-on:click="foodJournal()" id="foodJournal">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <div class="column">
+        <label class="container" >Meet Food Goal
+          <input type="checkbox"  v-on:click="foodGoals()" id="foodGoals">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <div class="column">
+        <label class="container" >30 minutes of Excercise
+          <input type="checkbox"  v-on:click="excercise()" id="excercise">
+          <span class="checkmark"></span>
+        </label>
+      </div>
+      <div class="column">
+        <label class="container" >Read your Scriptures
+          <input type="checkbox"  v-on:click="scriptures()" id="scriptures">
+          <span class="checkmark"></span>
+        </label>
       </div>
     </div>
-    
-    
-    <br>
-    <br>
-    
-    
-
     
   </div>
   <br>
